@@ -6,7 +6,52 @@ on:
       json_string:
         required: true
         type: string
-        default: '{"name": "John Doe", "age": 30, "city": "New York", "email": "johndoe@example.com", "is_employee": true, "hobbies": ["reading", "hiking", "photography"], "address": {"street": "123 Main St", "city": "New York", "zipcode": "10001", "country": "USA"}}'
+        default: |
+          [
+            {
+              "name": "John Doe",
+              "age": 30,
+              "city": "New York",
+              "email": "johndoe@example.com",
+              "is_employee": true,
+              "hobbies": ["reading", "hiking", "photography"],
+              "address": {
+                "street": "123 Main St",
+                "city": "New York",
+                "zipcode": "10001",
+                "country": "USA"
+              }
+            },
+            {
+              "name": "Jane Smith",
+              "age": 25,
+              "city": "Los Angeles",
+              "email": "janesmith@example.com",
+              "is_employee": false,
+              "hobbies": ["painting", "traveling", "yoga"],
+              "address": {
+                "street": "456 Elm St",
+                "city": "Los Angeles",
+                "zipcode": "90001",
+                "country": "USA"
+              }
+            },
+            {
+              "name": "David Johnson",
+              "age": 35,
+              "city": "Chicago",
+              "email": "davidjohnson@example.com",
+              "is_employee": true,
+              "hobbies": ["cooking", "gardening", "playing guitar"],
+              "address": {
+                "street": "789 Oak St",
+                "city": "Chicago",
+                "zipcode": "60601",
+                "country": "USA"
+              }
+            }
+          ]
+
 
 jobs:
   convert_string_to_list:
@@ -15,7 +60,7 @@ jobs:
     
 
        - name: Print list
-         run: echo " ${{ fromJson(inputs.json_string) }}"
+          run: echo "${{ fromJson(inputs.json_string) }}"
 
 
           
