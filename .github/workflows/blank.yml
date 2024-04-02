@@ -1,10 +1,6 @@
 name: CI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
     inputs:
       json_string:
@@ -16,13 +12,17 @@ jobs:
   convert_string_to_list:
     runs-on: ubuntu-latest
     steps:
-      - name: Set the string value
-        run: echo "::set-output name=my_string::apple,banana,orange"
-
-      - name: Convert string to list
-        id: convert
-        run: echo "::set-output name=my_list::$(echo ${{ steps.set_string.outputs.my_string }} | tr ',' '\n')"
+      - name: Set JSON string
+        id: set-json
+        run: echo "::set-output name=json_string::${{ inputs.json_string }}"
         shell: bash
-
-      - name: Print the converted list
-        run: echo "My list is ${{ steps.convert.outputs.my_list }}"
+        env:
+          inputs.json_string: ${{ toJson(inputs.json_string) }}
+          
+      - name: Convert JSON string to list
+        id: convert-json
+        run: echo "::set-output name=json_list::${{ fromJson(steps.set-json.outputs.json_string).items }}"
+        shell: bash
+        
+      - name: Print list
+        run: echo "${{ steps.convert-json.outputs.json_list }}"
