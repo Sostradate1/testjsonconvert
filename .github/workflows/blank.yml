@@ -13,12 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-       - name: Create an array of args
-         id: args
-         run: echo "::set-output name=build_args::$(jq 'split(",")' -Rc <(echo '${{ inputs.build_args }}'))"
 
        - name: Print list
-         run: echo " ${{ fromJson(steps.args.outputs.json_list) }}"
+         run: echo " ${{ fromJson(inputs.json_string) }}"
 
 
           
