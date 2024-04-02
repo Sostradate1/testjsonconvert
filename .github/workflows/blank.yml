@@ -3,7 +3,7 @@ name: CI
 on:
   workflow_dispatch:
     inputs:
-      build_args:
+      json_string:
         required: true
         type: string
         default: '{"name": "John Doe", "age": 30, "city": "New York", "email": "johndoe@example.com", "is_employee": true, "hobbies": ["reading", "hiking", "photography"], "address": {"street": "123 Main St", "city": "New York", "zipcode": "10001", "country": "USA"}}'
@@ -12,15 +12,36 @@ jobs:
   convert_string_to_list:
     runs-on: ubuntu-latest
     steps:
-      - name: Create an array of args
-        id: args
-        run: echo "::set-output name=build_args::$(jq 'split(",")' -Rc <(echo '${{ inputs.build_args }}'))"
+    
+      - name: Set JSON string
+        id: set-json
+        run: echo "::set-output name=json_string::${{ inputs.json_string }}"
+        shell: bash
+        env:
+          inputs.json_string: ${{ toJson(inputs.json_string) }}
+          
+      - name: Convert JSON string to list
+        id: convert-json
+        run: echo "::set-output name=json_list::${{ fromJson(steps.set-json.outputs.json_string).items }}"
+        shell: bash
+        
+      - name: Print list
+        run: echo " ${{ fromJson(steps.convert-json.outputs.json_list) }}"
 
-      - name: Print modified files
-        run: echo '${{ steps.args.outputs.build_args }}'
 
-      - name: Print from json
-        run: echo '${{ fromJson(steps.args.outputs.build_args) }}'
+
+
+
+    
+    #  - name: Create an array of args
+    #    id: args
+    #    run: echo "::set-output name=build_args::$(jq 'split(",")' -Rc <(echo '${{ inputs.build_args }}'))"
+
+    #  - name: Print modified files
+    #    run: echo '${{ steps.args.outputs.build_args }}'
+
+    #  - name: Print from json
+    #    run: echo '${{ fromJson(steps.args.outputs.build_args) }}'
 
 
 
