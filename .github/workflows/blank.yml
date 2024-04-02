@@ -42,7 +42,11 @@ jobs:
         run: |
           echo "::set-output name=parsed_input2::$(echo '${{ inputs.input2 }}' | jq -c '.hobbies')"
 
-      - name: Convert JSON string to list
-        id: convert-json
-        run: echo "::set-output name=json_list::${{ fromJson(steps.parse_input2.outputs.parsed_input2).items }}"
-        shell: bash
+      - name: Create list of modified files
+        id: modified_files_list
+        uses: lucaspinheirogit/list-from-string-array-action@v1.4.3
+        with:
+          stringArray: ${{ steps.parse_input2.outputs.parsed_input2 }}
+          
+      - name: Print modified files
+        run: echo '${{ steps.modified_files_list.outputs.stringList }}'
