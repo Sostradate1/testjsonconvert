@@ -33,20 +33,18 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: Step 1
-        run: |
-          echo "Step 1"
-
-      - name: Step 2
-        id: parse_input2
-        run: |
-          echo "::set-output name=parsed_input2::$(echo '${{ inputs.input2 }}' | jq -c '.hobbies')"
+      - name: Set JSON string
+        id: set-json
+        run: echo "::set-output name=json_string::${{ inputs.json_string }}"
+        shell: bash
+        env:
+          inputs.json_string: ${{ toJson(inputs.json_string) }}
 
       - name: Create list of modified files
         id: modified_files_list
         uses: lucaspinheirogit/list-from-string-array-action@v1.4.3
         with:
-          stringArray: ${{ steps.parse_input2.outputs.parsed_input2 }}
+          stringArray: ${{ steps.set-json.outputs.json_string }}
           
       - name: Print modified files
         run: echo '${{ steps.modified_files_list.outputs.stringList }}'
