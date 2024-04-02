@@ -12,17 +12,16 @@ jobs:
   convert_string_to_list:
     runs-on: ubuntu-latest
     steps:
-      - name: Set JSON string
-        id: set-json
-        run: echo "::set-output name=json_string::${{ inputs.json_string }}"
-        shell: bash
-        env:
-          inputs.json_string: ${{ toJson(inputs.json_string) }}
-          
-      - name: Convert JSON string to list
-        id: convert-json
-        run: echo "::set-output name=json_list::${{ fromJson(steps.set-json.outputs.json_string).items }}"
-        shell: bash
+      - name: Create an array of args
+        id: args
+        run: echo "::set-output name=build_args::$(jq 'split(",")' -Rc <(echo '${{ inputs.build_args }}'))"
+
         
-      - name: Print list
-        run: echo "${{ steps.convert-json.outputs.json_list }}"
+      - name: Create list of modified files
+        id: modified_files_list
+        uses: lucaspinheirogit/list-from-string-array-action@v1.4.3
+        with:
+          stringArray: ${{ steps.args.outputs.build_args }}
+
+      - name: Print modified files
+        run: echo '${{ steps.modified_files_list.outputs.stringList }}'
