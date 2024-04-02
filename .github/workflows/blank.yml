@@ -19,6 +19,9 @@ jobs:
         shell: bash
         env:
           inputs.json_string: ${{ toJson(inputs.json_string) }}
+
+      - name: Print string
+        run: echo " ${{ fromJson(steps.convert-json.outputs.json_string) }}"
           
       - name: Convert JSON string to list
         id: convert-json
