@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Print list
-      run: echo "${{ fromJson(inputs.json_string) }}"
+      run: echo cat "${{ fromJson(inputs.json_string) }}"
 
 
           
