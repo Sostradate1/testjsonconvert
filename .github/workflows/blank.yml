@@ -57,10 +57,8 @@ jobs:
   convert_string_to_list:
     runs-on: ubuntu-latest
     steps:
-    
-
-       - name: Print list
-          run: echo "${{ fromJson(inputs.json_string) }}"
+    - name: Print list
+      run: echo "${{ fromJson(inputs.json_string) }}"
 
 
           
