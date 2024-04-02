@@ -44,7 +44,7 @@ jobs:
         id: modified_files_list
         uses: lucaspinheirogit/list-from-string-array-action@v1.4.3
         with:
-          stringArray: ${{ steps.set-json.outputs.json_string }}
+          stringArray: ${{ inputs.json_string }}
           
       - name: Print modified files
         run: echo '${{ steps.modified_files_list.outputs.stringList }}'
