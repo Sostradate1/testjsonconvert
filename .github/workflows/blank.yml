@@ -21,7 +21,8 @@ jobs:
           inputs.json_string: ${{ toJson(inputs.json_string) }}
 
       - name: Print string
-        run: echo " ${{ fromJson(steps.set-json.outputs.json_string) }}"
+        run: echo "${{ fromJson(steps.set-json.outputs.json_string) }}"
+        shell: bash
           
       #- name: Convert JSON string to list
       #  id: convert-json
