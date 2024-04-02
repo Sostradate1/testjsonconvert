@@ -23,13 +23,13 @@ jobs:
       - name: Print string
         run: echo " ${{ fromJson(steps.set-json.outputs.json_string) }}"
           
-      - name: Convert JSON string to list
-        id: convert-json
-        run: echo "::set-output name=json_list::${{ fromJson(steps.set-json.outputs.json_string).items }}"
-        shell: bash
-        
-      - name: Print list
-        run: echo " ${{ fromJson(steps.convert-json.outputs.json_list) }}"
+      #- name: Convert JSON string to list
+      #  id: convert-json
+      #  run: echo "::set-output name=json_list::${{ fromJson(steps.set-json.outputs.json_string).items }}"
+      #  shell: bash
+      #  
+      #- name: Print list
+      #  run: echo " ${{ fromJson(steps.convert-json.outputs.json_list) }}"
 
 
 
