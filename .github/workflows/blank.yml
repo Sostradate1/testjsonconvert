@@ -19,7 +19,8 @@ jobs:
       - name: Print modified files
         run: echo '${{ steps.args.outputs.build_args }}'
 
-
+      - name: Print from json
+        run: echo '${{ fromJson(steps.args.outputs.build_args) }}'
 
 
 
