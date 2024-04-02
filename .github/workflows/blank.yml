@@ -16,12 +16,22 @@ jobs:
         id: args
         run: echo "::set-output name=build_args::$(jq 'split(",")' -Rc <(echo '${{ inputs.build_args }}'))"
 
-        
-      - name: Create list of modified files
-        id: modified_files_list
-        uses: lucaspinheirogit/list-from-string-array-action@v1.4.3
-        with:
-          stringArray: ${{ steps.args.outputs.build_args }}
-
       - name: Print modified files
-        run: echo '${{ steps.modified_files_list.outputs.stringList }}'
+        run: echo '${{ steps.args.outputs.build_args }}'
+
+
+
+
+
+
+
+
+        
+     # - name: Create list of modified files
+     #   id: modified_files_list
+     #   uses: lucaspinheirogit/list-from-string-array-action@v1.4.3
+     #   with:
+     #     stringArray: ${{ steps.args.outputs.build_args }}
+
+     # - name: Print modified files
+     #   run: echo '${{ steps.modified_files_list.outputs.stringList }}'
