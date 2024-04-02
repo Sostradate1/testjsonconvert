@@ -13,28 +13,16 @@ on:
         default: '{"name": "John Doe", "age": 30, "city": "New York", "email": "johndoe@example.com", "is_employee": true, "hobbies": ["reading", "hiking", "photography"], "address": {"street": "123 Main St", "city": "New York", "zipcode": "10001", "country": "USA"}}'
 
 jobs:
-  build:
+  convert_string_to_list:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Set the string value
+        run: echo "::set-output name=my_string::apple,banana,orange"
 
-      - name: Set JSON string
-        id: set-json
-        run: echo "::set-output name=json_string::${{ inputs.json_string }}"
-        shell: bash
-        env:
-          inputs.json_string: ${{ toJson(inputs.json_string) }}
-
-      - name: Parse JSON string into array
-        id: parse-json
-        run: echo "${{ steps.set-json.outputs.json_string }}" | jq -r '.hobbies[]'
+      - name: Convert string to list
+        id: convert
+        run: echo "::set-output name=my_list::$(echo ${{ steps.set_string.outputs.my_string }} | tr ',' '\n')"
         shell: bash
 
-      - name: Create list of modified files
-        id: modified_files_list
-        uses: lucaspinheirogit/list-from-string-array-action@v1.4.3
-        with:
-          stringArray: ${{ steps.parse-json.outputs.stdout }}
-          
-      - name: Print modified files
-        run: echo '${{ steps.modified_files_list.outputs.stringList }}'
+      - name: Print the converted list
+        run: echo "My list is ${{ steps.convert.outputs.my_list }}"
