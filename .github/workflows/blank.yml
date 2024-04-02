@@ -13,16 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-      - name: Set JSON string
-        id: set-json
-        run: echo "::set-output name=json_string::${{ inputs.json_string }}"
-        shell: bash
-        env:
-          inputs.json_string: ${{ toJson(inputs.json_string) }}
+       - name: Create an array of args
+         id: args
+         run: echo "::set-output name=build_args::$(jq 'split(",")' -Rc <(echo '${{ inputs.build_args }}'))"
 
-      - name: Print string
-        run: echo "${{ fromJson(steps.set-json.outputs.json_string) }}"
-        shell: bash
+       - name: Print list
+         run: echo " ${{ fromJson(steps.args.outputs.json_list) }}"
+
+
           
       #- name: Convert JSON string to list
       #  id: convert-json
