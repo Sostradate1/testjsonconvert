@@ -3,7 +3,7 @@ name: CI
 on:
   workflow_dispatch:
     inputs:
-      json_string:
+      build_args:
         required: true
         type: string
         default: '{"name": "John Doe", "age": 30, "city": "New York", "email": "johndoe@example.com", "is_employee": true, "hobbies": ["reading", "hiking", "photography"], "address": {"street": "123 Main St", "city": "New York", "zipcode": "10001", "country": "USA"}}'
