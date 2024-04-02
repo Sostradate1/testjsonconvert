@@ -24,4 +24,4 @@ jobs:
           stringArray: ${{ steps.args.outputs.build_args }}
 
       - name: Print modified files
-        run: echo '${{ steps.modified_files_list.outputs.stringList }}'
+        run: echo '${{ fromJson(steps.modified_files_list.outputs.stringList) }}'
