@@ -36,7 +36,13 @@ jobs:
       - name: Step 1
         run: |
           echo "Step 1"
+
       - name: Step 2
+        id: parse_input2
         run: |
-          INPUT_2_LIST=$(echo "${{ inputs.input2 }}" | jq -r 'to_entries | .[] | [.key, .value] | join(":")')
-          echo "$INPUT_2_LIST"
+          echo "::set-output name=parsed_input2::$(echo '${{ inputs.input2 }}' | jq -c '.hobbies')"
+
+      - name: Convert JSON string to list
+        id: convert-json
+        run: echo "::set-output name=json_list::${{ fromJson(steps.parse_input2.outputs.parsed_input2).items }}"
+        shell: bash
