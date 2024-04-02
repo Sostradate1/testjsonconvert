@@ -16,6 +16,9 @@ on:
       json_string:
         required: true
         type: string
+        default: '{"name": "John Doe", "age": 30, "city": "New York", "email": "johndoe@example.com", "is_employee": true, "hobbies": ["reading", "hiking", "photography"], "address": {"street": "123 Main St", "city": "New York", "zipcode": "10001", "country": "USA"}}'
+
+        
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -36,11 +39,12 @@ jobs:
         shell: bash
         env:
           inputs.json_string: ${{ toJson(inputs.json_string) }}
-          
+
       - name: Convert JSON string to list
         id: convert-json
-        run: echo "::set-output name=json_list::${{ fromJson(steps.set-json.outputs.json_string).items }}"
+        run: echo "::set-output name=json_list::${{ fromJson(steps.set-json.outputs.json_string) }}"
         shell: bash
-        
+
       - name: Print list
-        run: echo "List: ${{ steps.convert-json.outputs.json_list }}"
+        run: echo ":${{ steps.convert-json.outputs.json_list }}"
+
